@@ -44,6 +44,9 @@ namespace DockerCity.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsHiddenFromRecent")
+                        .HasColumnType("INTEGER");
+
                     b.Property<long>("LastOpenedAt")
                         .HasColumnType("INTEGER");
 
