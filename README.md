@@ -104,3 +104,16 @@ Faz 9 sonrası:
 - Docker servislerinin durumları izleyen parça da entegre edildiğinde
 
 ![Runtime Screenshot of DockerCity App with Docker service status integrated](Runtime_12.png)
+
+## Sürümler
+
+Hazır derlemeler [Releases](https://github.com/buraksenyurt/docker-city/releases) sayfasında. Her sürümde Windows x64 ve ARM64 için self-contained zip (.NET ve Windows App SDK kurulumu gerekmez) ve dosyaların SHA256 özetlerini içeren bir `release.json` bulunur.
+
+Yeni sürüm çıkarmak için `src/DockerCity.App/DockerCity.App.csproj` (`<Version>`) içindeki sürümü güncelleyip commit'le, ardından tag'i push'la:
+
+```bash
+git tag v0.10.0
+git push origin v0.10.0
+```
+
+[`release`](.github/workflows/release.yml) workflow'u tag'deki sürümün projedekiyle aynı olduğunu doğrular, tüm platformlar için derler ve sürümü yayınlar.

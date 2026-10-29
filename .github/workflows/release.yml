@@ -1,0 +1,150 @@
+# Bir sürüm tag'i (v1.2.3) push'landığında DockerCity'yi Windows x64 ve ARM64 için
+# self-contained olarak yayınlar, zip'leri taslak bir GitHub Release'e yükler,
+# release.json'u üretir ve yayınlar.
+#
+# Sürüm çıkarmak:
+#   1. src/DockerCity.App/DockerCity.App.csproj içindeki <Version> değerini güncelle, commit'le
+#   2. git tag v1.2.3 && git push origin v1.2.3
+#
+# Bir platform başarısız olursa release taslak kalır; ilgili job'ı "Re-run failed jobs"
+# ile tekrar çalıştır ya da Actions > release > Run workflow ile aynı tag'i ver.
+name: release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Derlenecek mevcut tag (örn. v0.10.0)"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  TOOL: docker-city
+  APP: DockerCity.App
+  PROJECT: src/DockerCity.App/DockerCity.App.csproj
+  TAG: ${{ inputs.tag || github.ref_name }}
+  GH_TOKEN: ${{ github.token }}
+  GH_REPO: ${{ github.repository }}
+  DOTNET_NOLOGO: "1"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
+jobs:
+  prepare:
+    name: Sürüm kontrolü ve taslak release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TAG }}
+
+      - name: Tag ile proje sürümü aynı mı?
+        id: version
+        run: |
+          version=$(scripts/release/check-version.sh "$TAG" \
+            "$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' "$PROJECT" | head -1)")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Taslak release
+        run: |
+          if [ "$(gh release view "$TAG" --json isDraft --jq .isDraft 2>/dev/null)" = "false" ]; then
+            echo "::error::$TAG zaten yayınlanmış. Yayınlanmış bir sürüm değiştirilmez; yeni bir sürüm çıkar."
+            exit 1
+          fi
+          gh release view "$TAG" >/dev/null 2>&1 \
+            || gh release create "$TAG" --draft --verify-tag --generate-notes --title "DockerCity $TAG"
+
+  build:
+    name: Derleme (${{ matrix.platform }})
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { platform: windows-x64, rid: win-x64, arch: x64 }
+          - { platform: windows-arm64, rid: win-arm64, arch: ARM64 }
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    env:
+      VERSION: ${{ needs.prepare.outputs.version }}
+      PLATFORM: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TAG }}
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Testler
+        if: matrix.platform == 'windows-x64'
+        run: dotnet test DockerCity.slnx -c Release
+
+      # Trimming EF Core ve WinUI ile güvenilir değil; csproj'daki Release varsayılanını kapatıyoruz.
+      - name: Publish (self-contained)
+        run: |
+          dotnet publish "$PROJECT" -c Release -r ${{ matrix.rid }} -p:Platform=${{ matrix.arch }} \
+            --self-contained true -p:WindowsAppSDKSelfContained=true -p:PublishTrimmed=false \
+            -o publish
+
+      - name: Paketle
+        run: |
+          set -euo pipefail
+          base="$TOOL-$VERSION-$PLATFORM"
+          mkdir -p out
+          (cd publish && 7z a -tzip "$GITHUB_WORKSPACE/out/$base.zip" . >/dev/null)
+          scripts/release/fragment.sh "$PLATFORM" "fragment-$PLATFORM.json" \
+            "out/$base.zip" zip "$APP.exe"
+
+      - name: Release'e yükle
+        run: gh release upload "$TAG" out/* --clobber
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fragment-${{ matrix.platform }}
+          path: fragment-${{ matrix.platform }}.json
+          if-no-files-found: error
+
+  publish:
+    name: release.json ve yayın
+    needs: [prepare, build]
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ needs.prepare.outputs.version }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TAG }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: fragment-*
+          merge-multiple: true
+          path: fragments
+
+      - name: release.json
+        run: |
+          scripts/release/compose-manifest.sh "$TOOL" "$VERSION" "$TAG" "$GH_REPO" \
+            "$(git rev-parse HEAD)" fragments > release.json
+          cat release.json
+
+      - name: Yayınla
+        run: |
+          gh release upload "$TAG" release.json --clobber
+          if [[ "$VERSION" == *-* ]]; then
+            gh release edit "$TAG" --draft=false --prerelease
+          else
+            gh release edit "$TAG" --draft=false --latest
+          fi

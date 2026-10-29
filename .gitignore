@@ -11,6 +11,9 @@ publish/
 artifacts/
 *.nupkg
 
+# Yukarıdaki [Rr]elease/ kalıbı sürüm betiklerini yutmasın
+!scripts/release/
+
 # Test sonuçları
 [Tt]est[Rr]esult*/
 coverage*/
