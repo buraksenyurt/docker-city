@@ -3,7 +3,7 @@
 > **Seri:** DockerCity — docker-compose topoloji dashboard'u
 > **Önceki bölüm:** `05-mahalle-bolgeleri.md` · **Sonraki bölüm:** `07-baglantilar.md`
 > **Tahmini süre:** 3–4 saat
-> **Kod reposu:** `C:\Users\burak\Development\coding-vibes\DockerCity`
+> **Kod reposu:** `C:\Users\burak\Development\docker-city`
 
 ---
 

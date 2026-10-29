@@ -1,0 +1,45 @@
+# .NET build çıktıları
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+ARM64/
+[Ll]og/
+publish/
+artifacts/
+*.nupkg
+
+# Test sonuçları
+[Tt]est[Rr]esult*/
+coverage*/
+*.trx
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.user
+*.suo
+*.rsuser
+*.userprefs
+launchSettings.local.json
+
+# Windows App SDK / MSIX
+AppPackages/
+BundleArtifacts/
+*.appx
+*.msix
+*.msixbundle
+*.pfx
+
+# SQLite (çalışma zamanında %LOCALAPPDATA% altında oluşur, yine de)
+*.db
+*.db-shm
+*.db-wal
+
+# OS
+.DS_Store
+Thumbs.db

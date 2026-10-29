@@ -9,7 +9,7 @@ namespace DockerCity.App.Views;
 // ContentDialog needs its XamlRoot set from the window that shows it anyway.
 internal static class Dialogs
 {
-    private const string RepositoryUrl = "https://github.com/buraksenyurt/coding-vibes/tree/main/DockerCity";
+    private const string RepositoryUrl = "https://github.com/buraksenyurt/docker-city";
 
     public static readonly IReadOnlyList<(string Keys, string Action)> Shortcuts =
     [

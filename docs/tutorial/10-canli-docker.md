@@ -3,7 +3,7 @@
 > **Seri:** DockerCity — docker-compose topoloji dashboard'u
 > **Önceki bölüm:** `09-zoom-pan-animasyon.md` · **Serinin son bölümü**
 > **Tahmini süre:** 4–5 saat
-> **Kod reposu:** `C:\Users\burak\Development\coding-vibes\DockerCity`
+> **Kod reposu:** `C:\Users\burak\Development\docker-city`
 
 ---
 

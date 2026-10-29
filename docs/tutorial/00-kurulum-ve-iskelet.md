@@ -81,7 +81,7 @@ Bu workload, WinUI 3 / Windows App SDK proje şablonlarını getirir. Yoksa "De�
 ### Adım 2 — Klasör ve solution
 
 ```powershell
-cd C:\Users\burak\Development\coding-vibes\DockerCity
+cd C:\Users\burak\Development\docker-city
 dotnet new sln -n DockerCity
 ```
 
@@ -269,11 +269,11 @@ Sonra Visual Studio'da `DockerCity.App`'i başlangıç projesi yapıp **F5**. Or
 
 ### Adım 11 — Commit
 
-`coding-vibes` reposunun `.gitignore`'u `bin/`, `obj/`, `.vs/` klasörlerini zaten dışarıda tutuyor.
+Repo kökündeki `.gitignore` `bin/`, `obj/`, `.vs/` klasörlerini dışarıda tutuyor.
 
 ```powershell
-cd C:\Users\burak\Development\coding-vibes
-git add DockerCity
+cd C:\Users\burak\Development\docker-city
+git add .
 git status
 ```
 

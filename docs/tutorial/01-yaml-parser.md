@@ -3,7 +3,7 @@
 > **Seri:** DockerCity — docker-compose topoloji dashboard'u
 > **Önceki bölüm:** `00-kurulum-ve-iskelet.md` · **Sonraki bölüm:** `02-domain-modeli.md`
 > **Tahmini süre:** 2–3 saat
-> **Kod reposu:** `C:\Users\burak\Development\coding-vibes\DockerCity`
+> **Kod reposu:** `C:\Users\burak\Development\docker-city`
 
 ---
 
@@ -57,7 +57,7 @@ YamlDotNet bir alanın tek bir şekli olduğunu varsayar. `environment` için `D
 ### Adım 1 — Paket
 
 ```powershell
-cd C:\Users\burak\Development\coding-vibes\DockerCity
+cd C:\Users\burak\Development\docker-city
 dotnet add src\DockerCity.Parsing package YamlDotNet
 dotnet add tests\DockerCity.Parsing.Tests reference src\DockerCity.Parsing
 ```

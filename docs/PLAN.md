@@ -3,7 +3,7 @@
 > **Atölye:** Fikirler Atölyesi
 > **Doküman sürümü:** v1.1 — 16 Eylül 2026
 > **Dokümanlar:** bu klasör (`DockerCity/docs`)
-> **Kod:** `C:\Users\burak\Development\coding-vibes\DockerCity`
+> **Kod:** `C:\Users\burak\Development\docker-city`
 > **Durum:** Onaylandı — Faz 0 başlıyor
 
 ---
@@ -23,9 +23,9 @@ Bu proje iki katmanlı bir hedefe hizmet ediyor:
 
 Öncelik **öğreti** tarafında. Her faz; "ne yapacağız → neden böyle → kod → ne öğrendik" akışında ayrı bir doküman olarak üretilecek.
 
-> **Not:** Plan ve öğreti dokümanları MVP sonrası kodun yanına taşındı; ikisi de `coding-vibes/DockerCity` altında. Daha önce ayrı bir repoda tutuluyorlardı.
+> **Not:** Plan ve öğreti dokümanları MVP sonrası kodun yanına taşındı. Ekim 2026'da proje, geçmişiyle birlikte `coding-vibes/DockerCity` altından kendi reposuna ([github.com/buraksenyurt/docker-city](https://github.com/buraksenyurt/docker-city)) taşındı.
 >
-> **Not — repo bağlamı:** `coding-vibes`, AI destekli kodlama denemelerinin tutulduğu repo. Her üst klasör bir çalışma; DockerCity de `.context/`, `README.md`, `src/` konvansiyonunu izliyor. Repo kökündeki `.gitignore` build çıktılarını zaten dışarıda tutuyor.
+> **Not — repo bağlamı:** Proje `coding-vibes` konvansiyonunu (`.context/`, `README.md`, `src/`) korudu. Build çıktılarını dışarıda tutan `.gitignore` artık repo kökünde.
 
 ---
 
@@ -88,7 +88,7 @@ Dashboard klasik bir node-graph değil; bir **şehir manzarası**. Compose kavra
 ### 5.1 Solution yapısı
 
 ```
-coding-vibes/DockerCity/
+docker-city/
 ├── DockerCity.slnx
 ├── Directory.Build.props
 ├── src/

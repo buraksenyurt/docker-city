@@ -3,7 +3,7 @@
 > **Seri:** DockerCity — docker-compose topoloji dashboard'u
 > **Önceki bölüm:** `02-domain-modeli.md` · **Sonraki bölüm:** `04-canvas-ve-mvvm.md`
 > **Tahmini süre:** 2–3 saat
-> **Kod reposu:** `C:\Users\burak\Development\coding-vibes\DockerCity`
+> **Kod reposu:** `C:\Users\burak\Development\docker-city`
 
 ---
 
@@ -103,7 +103,7 @@ Faz 0'da unpackaged tercihinin gerekçelerinden biri buydu: dosya Explorer'dan g
 `DockerCity.Data` projesine:
 
 ```powershell
-cd C:\Users\burak\Development\coding-vibes\DockerCity
+cd C:\Users\burak\Development\docker-city
 dotnet add src\DockerCity.Data package Microsoft.EntityFrameworkCore.Sqlite
 dotnet add src\DockerCity.Data package Microsoft.EntityFrameworkCore.Design
 ```

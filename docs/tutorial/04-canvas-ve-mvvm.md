@@ -3,7 +3,7 @@
 > **Seri:** DockerCity — docker-compose topoloji dashboard'u
 > **Önceki bölüm:** `03-sqlite-ef-core.md` · **Sonraki bölüm:** `05-mahalle-bolgeleri.md`
 > **Tahmini süre:** 3–4 saat
-> **Kod reposu:** `C:\Users\burak\Development\coding-vibes\DockerCity`
+> **Kod reposu:** `C:\Users\burak\Development\docker-city`
 
 ---
 
